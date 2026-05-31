@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
 import { Alert, Image, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Ionicons } from '@expo/vector-icons';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../types';
-import { theme, brand } from '../theme';
-import { getCompatibility } from '../utils/match';
+import { theme } from '../theme';
 import { InterestChip } from '../components/InterestChip';
 import { PrimaryButton } from '../components/PrimaryButton';
+import { concatMatch } from '../utils/match';
+import { Ionicons } from '@expo/vector-icons';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Match'>;
 
+
 export const MatchScreen = ({ route }: Props) => {
   const { profile } = route.params;
-  const { shared, score } = getCompatibility(profile);
   const [message, setMessage] = useState('');
 
   const send = () => {
@@ -28,7 +28,7 @@ export const MatchScreen = ({ route }: Props) => {
         <Image source={profile.image} style={styles.image} />
         <View style={styles.banner}>
           <Ionicons name="heart" size={15} color={theme.colors.accent} />
-          <Text style={styles.bannerText}>you {brand.operator} {profile.name} · {score}% match</Text>
+          <Text style={styles.bannerText}>{concatMatch(profile)}</Text>
         </View>
         <View style={styles.body}>
           <Text style={styles.name}>{profile.name}, <Text style={styles.age}>{profile.age}</Text></Text>
@@ -39,15 +39,6 @@ export const MatchScreen = ({ route }: Props) => {
 
           <Text style={styles.section}>About</Text>
           <Text style={styles.bio}>{profile.bio}</Text>
-
-          {shared.length > 0 && (
-            <>
-              <Text style={styles.section}>What you share</Text>
-              <View style={styles.interests}>
-                {shared.map((i) => <InterestChip key={i} label={i} variant="dark" />)}
-              </View>
-            </>
-          )}
 
           <Text style={styles.section}>Interests</Text>
           <View style={styles.interests}>
@@ -68,13 +59,12 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: theme.colors.background },
   scroll: { paddingBottom: theme.spacing.lg },
   image: { width: '100%', height: 380 },
-  banner: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, backgroundColor: theme.colors.accentSoft, paddingVertical: 10 },
+  banner: { backgroundColor: theme.colors.accentSoft, paddingVertical: 10, alignItems: 'center' },
   bannerText: { color: theme.colors.accent, fontWeight: '700' },
   body: { padding: theme.spacing.lg },
   name: { fontSize: 28, fontWeight: '700', color: theme.colors.black },
   age: { fontWeight: '400', color: theme.colors.greyDark },
-  metaRow: { flexDirection: 'row', alignItems: 'center', gap: 4, marginTop: 4 },
-  location: { fontSize: 15, color: theme.colors.grey },
+  location: { fontSize: 15, color: theme.colors.grey, marginTop: 2 },
   section: { fontSize: 13, fontWeight: '700', color: theme.colors.grey, textTransform: 'uppercase', marginTop: theme.spacing.lg },
   bio: { fontSize: 16, lineHeight: 23, color: theme.colors.greyDark, marginTop: 6 },
   interests: { flexDirection: 'row', flexWrap: 'wrap', marginTop: 2 },
