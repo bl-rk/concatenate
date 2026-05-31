@@ -158,7 +158,7 @@ Voice recognition accuracy varies with device, locale, and background noise.
 
 ## APK download
 ** Expo Build Link :** https://expo.dev/accounts/blxrk/projects/concatenate/builds/6f97f2fa-edb2-4c92-9e0e-ae1aadecef58
-**Download (Google Drive):** (https://drive.google.com/file/d/1Z296cHd2G9La2IrVNY_8HntRGRFLpjQQ/view?usp=sharing)  *(sharing set to "Anyone with the link")*
+**Download (Google Drive):** https://drive.google.com/file/d/1Z296cHd2G9La2IrVNY_8HntRGRFLpjQQ/view?usp=sharing  *(sharing set to "Anyone with the link")*
 
 **Install instructions:**
 1. Open the link above on your Android device and download the `.apk`.
