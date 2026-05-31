@@ -30,6 +30,8 @@ export function useVoiceSwipe(onCommand: (dir: Direction) => void) {
     }
   }, [engineStart]);
 
+  
+
   const stop = useCallback(() => {
     keepAlive.current = false;
     try { ExpoSpeechRecognitionModule.stop(); } catch {}
@@ -51,9 +53,9 @@ export function useVoiceSwipe(onCommand: (dir: Direction) => void) {
   useSpeechRecognitionEvent('result', (e) => {
     const t = (e.results?.[0]?.transcript ?? '').toLowerCase();
     if (!t) return;
-    if (/\b(yes|like|love|right)\b/.test(t)) fire('right');
-    else if (/\b(pass|no|nope|skip|left)\b/.test(t)) fire('left');
-  });
+    if (/\bmatch\b/.test(t)) fire('right');
+    else if (/\bpass\b/.test(t)) fire('left');
+    });
 
   return { listening, error, toggle };
 }

@@ -6,7 +6,6 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../types';
 import { theme } from '../theme';
 import { useMatches } from '../context/MatchContext';
-import { getCompatibility } from '../utils/match';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Matches'>;
 
@@ -29,19 +28,16 @@ export const MatchesScreen = ({ navigation }: Props) => {
         data={matches}
         keyExtractor={(item) => item.id}
         contentContainerStyle={{ padding: theme.spacing.md }}
-        renderItem={({ item }) => {
-          const { score } = getCompatibility(item);
-          return (
-            <Pressable style={styles.row} onPress={() => navigation.navigate('Match', { profile: item })}>
-              <Image source={item.image} style={styles.avatar} />
-              <View style={styles.rowBody}>
-                <Text style={styles.name}>{item.name}, {item.age}</Text>
-                <Text style={styles.meta}>{item.distanceKm} km away · {score}% match</Text>
-              </View>
-              <Ionicons name="chevron-forward" size={20} color={theme.colors.grey} />
-            </Pressable>
-          );
-        }}
+        renderItem={({ item }) => (
+        <Pressable style={styles.row} onPress={() => navigation.navigate('Match', { profile: item })}>
+            <Image source={item.image} style={styles.avatar} />
+            <View style={styles.rowBody}>
+            <Text style={styles.name}>{item.name}, {item.age}</Text>
+            <Text style={styles.meta}>{item.distanceKm} km away</Text>
+            </View>
+            <Ionicons name="chevron-forward" size={20} color={theme.colors.grey} />
+        </Pressable>
+        )}
       />
     </SafeAreaView>
   );

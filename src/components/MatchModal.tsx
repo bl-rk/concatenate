@@ -1,20 +1,19 @@
 import React from 'react';
 import { Image, Modal, StyleSheet, Text, View } from 'react-native';
-import { Profile, Compatibility } from '../types';
+import { Profile } from '../types';
 import { theme, brand } from '../theme';
 import { currentUser } from '../data/currentUser';
+import { concatMatch } from '../utils/match';
 import { PrimaryButton } from './PrimaryButton';
-import { InterestChip } from './InterestChip';
 
 type Props = {
   visible: boolean;
   profile: Profile | null;
-  compatibility: Compatibility | null;
   onMessage: () => void;
   onKeepSwiping: () => void;
 };
 
-export const MatchModal = ({ visible, profile, compatibility, onMessage, onKeepSwiping }: Props) => (
+export const MatchModal = ({ visible, profile, onMessage, onKeepSwiping }: Props) => (
   <Modal visible={visible} transparent animationType="fade">
     <View style={styles.overlay}>
       <Text style={styles.title}>concatenated!</Text>
@@ -23,12 +22,10 @@ export const MatchModal = ({ visible, profile, compatibility, onMessage, onKeepS
         <Text style={styles.operator}>{brand.operator}</Text>
         {profile && <Image source={profile.image} style={styles.avatar} />}
       </View>
-      {profile && compatibility && (
+      {profile && (
         <>
-          <Text style={styles.sub}>you {brand.operator} {profile.name} · {compatibility.score}% match</Text>
-          <View style={styles.shared}>
-            {compatibility.shared.map((i) => <InterestChip key={i} label={i} variant="dark" />)}
-          </View>
+          <Text style={styles.expr}>{concatMatch(profile.name)}</Text>
+          <Text style={styles.equals}> === it&apos;s a match</Text>
         </>
       )}
       <View style={styles.actions}>
@@ -45,7 +42,7 @@ const styles = StyleSheet.create({
   avatars: { flexDirection: 'row', alignItems: 'center', gap: theme.spacing.md },
   avatar: { width: 96, height: 96, borderRadius: 48, borderWidth: 3, borderColor: theme.colors.accent },
   operator: { color: theme.colors.white, fontSize: 40, fontWeight: '300' },
-  sub: { color: theme.colors.white, fontSize: 16, marginTop: theme.spacing.lg, fontWeight: '600' },
-  shared: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', marginTop: theme.spacing.sm },
+  expr: { color: theme.colors.white, fontSize: 18, marginTop: theme.spacing.lg, fontWeight: '600' },
+  equals: { color: theme.colors.grey, fontSize: 14, marginTop: 4 },
   actions: { alignSelf: 'stretch', marginTop: theme.spacing.xl },
 });
